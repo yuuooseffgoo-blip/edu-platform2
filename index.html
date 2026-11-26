@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منصة بسطتهالك التعليمية</title>
+<style>
+*{box-sizing:border-box;font-family:Tahoma,Arial,sans-serif;margin:0;padding:0}
+body{background:#f1f5f9;color:#0f172a;padding-bottom:40px}
+nav{background:#1d4ed8;color:#fff;padding:15px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.nav-btns button{background:rgba(255,255,255,.2);border:none;color:#fff;padding:8px 12px;border-radius:6px;cursor:pointer;font-weight:bold;margin:2px}
+.nav-btns button.active,.nav-btns button:hover{background:#f59e0b;color:#000}
+.container{max-width:1000px;margin:20px auto;padding:0 15px}
+.sec{display:none}.sec.active{display:block}
+.card{background:#fff;padding:20px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.08);margin-bottom:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:15px}
+input,select{width:100%;padding:10px;margin:6px 0 12px;border:1px solid #cbd5e1;border-radius:6px;font-size:1rem}
+.btn{background:#1d4ed8;color:#fff;border:none;padding:11px;border-radius:6px;cursor:pointer;font-weight:bold;width:100%;font-size:1rem}
+.btn-green{background:#16a34a}.btn-gold{background:#f59e0b;color:#000}
+.banner{background:linear-gradient(135deg,#1d4ed8,#1e3a8a);color:#fff;padding:20px;border-radius:10px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:20px}
+.video-box{position:relative;background:#000;border-radius:8px;overflow:hidden;aspect-ratio:16/9;margin:10px 0}
+.video-box iframe{width:100%;height:100%;border:none}
+.wm{position:absolute;top:20%;right:15%;background:rgba(255,255,255,.3);color:#fff;padding:4px 10px;border-radius:4px;font-weight:bold;pointer-events:none;animation:mv 8s infinite alternate}
+@keyframes mv{0%{top:10%;right:10%}100%{top:75%;right:65%}}
+.codes-area{background:#0f172a;color:#38bdf8;padding:10px;border-radius:6px;max-height:180px;overflow-y:auto;font-family:monospace;direction:ltr;text-align:left;margin-top:10px}
+.opt{display:block;background:#f8fafc;padding:8px;margin:5px 0;border:1px solid #e2e8f0;border-radius:5px;cursor:pointer}
+.opt input{width:auto;margin-left:8px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div style="font-size:1.3rem;font-weight:bold">🎓 منصة بسطتهالك</div>
+  <div class="nav-btns">
+    <button onclick="go('s1')" id="b1" class="active">1. بيانات الطالب</button>
+    <button onclick="go('s2')" id="b2">2. الكورسات والمحفظة</button>
+    <button onclick="go('s3')" id="b3">3. الحصة والامتحان</button>
+    <button onclick="go('s4')" id="b4">4. الإدارة والأكواد</button>
+  </div>
+</nav>
+
+<div class="container">
+  <!-- 1. التسجيل -->
+  <div id="s1" class="sec active">
+    <div class="card" style="max-width:480px;margin:auto">
+      <h3 style="margin-bottom:15px;color:#1d4ed8">تسجيل بيانات الطالب</h3>
+      <label>اسم الطالب:</label><input type="text" id="inName" placeholder="الاسم بالكامل">
+      <label>رقم هاتف الطالب:</label><input type="tel" id="inPhone" placeholder="010xxxxxxxx">
+      <label>رقم ولي الأمر:</label><input type="tel" id="inParent" placeholder="011xxxxxxxx">
+      <label>الصف الدراسي:</label>
+      <select id="inGrade"><option>الصف الثالث الثانوي</option><option>الصف الثاني الثانوي</option><option>الصف الأول الثانوي</option></select>
+      <button class="btn" onclick="saveUser()">حفظ والدخول للمنصة</button>
+    </div>
+  </div>
+
+  <!-- 2. الكورسات والمحفظة -->
+  <div id="s2" class="sec">
+    <div class="banner">
+      <div><h2 id="txtName">مرحباً بك</h2><p id="txtInfo" style="margin-top:5px;opacity:.9"></p></div>
+      <div style="background:rgba(255,255,255,.15);padding:12px 20px;border-radius:8px;text-align:center">
+        <div>رصيد المحفظة</div><div id="txtBal" style="font-size:1.6rem;font-weight:bold;color:#f59e0b">0 ج.م</div>
+      </div>
+    </div>
+    <div class="card">
+      <h3 style="color:#16a34a;margin-bottom:10px">💳 شحن المحفظة بكود السنتر</h3>
+      <input type="text" id="inCode" placeholder="أدخل الكود (جرب الكود الجاهز: EDU-100)">
+      <button class="btn btn-green" onclick="useCode()">شحن الرصيد الآن</button>
+    </div>
+    <h3 style="margin-bottom:12px">📚 الكورسات والشهور الدراسية المتاحة</h3>
+    <div class="grid" id="coursesBox"></div>
+  </div>
+
+  <!-- 3. الحصة والامتحان -->
+  <div id="s3" class="sec">
+    <div class="card">
+      <h3 id="vidTitle" style="color:#1d4ed8">🎬 الحصة التعليمية</h3>
+      <div class="video-box">
+        <iframe id="vidFrame" src="https://youtube.com" allowfullscreen></iframe>
+        <div class="wm" id="wmPhone">01000000000</div>
+      </div>
+    </div>
+    <div class="card">
+      <h3 style="color:#1d4ed8;margin-bottom:10px">📝 امتحان الحصة (تصحيح إلكتروني)</h3>
+      <div id="quizBox"></div>
+      <button class="btn btn-gold" style="margin-top:10px" onclick="checkQuiz()">تسليم الامتحان وعرض النتيجة</button>
+      <div id="quizRes" style="margin-top:15px;font-weight:bold;text-align:center;font-size:1.1rem"></div>
+    </div>
+  </div>
+
+  <!-- 4. الإدارة والأكواد -->
+  <div id="s4" class="sec">
+    <div class="grid">
+      <div class="card">
+        <h3 style="color:#1d4ed8">🔑 توليد آلاف الأكواد العشوائية</h3>
+        <label>عدد الأكواد:</label><input type="number" id="genNum" value="20" min="1" max="5000">
+        <label>قيمة الكود (جنيه):</label><input type="number" id="genVal" value="150">
+        <button class="btn" onclick="makeCodes()">توليد وحفظ الأكواد</button>
+        <div class="codes-area" id="codesOut">EDU-100 --> 200 EGP</div>
+      </div>
+      <div class="card">
+        <h3 style="color:#16a34a">➕ إضافة كورس / شهر لمعلم جديد</h3>
+        <label>اسم المعلم والمادة:</label><input type="text" id="cTeach" placeholder="مثال: م/ خالد صقر - كيمياء">
+        <label>اسم الشهر أو الكورس:</label><input type="text" id="cTitle" placeholder="مثال: شهر نوفمبر">
+        <label>السعر (جنيه):</label><input type="number" id="cPrice" value="150">
+        <label>رابط فيديو يوتيوب (Embed):</label><input type="text" id="cVid" placeholder="اختياري">
+        <button class="btn btn-green" onclick="addCourse()">نشر الكورس على المنصة</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let data = JSON.parse(localStorage.getItem('eduApp')) || {
+  user: {name:'',phone:'',parent:'',grade:'الصف الثالث الثانوي',bal:0,bought:[]},
+  codes: {'EDU-100':200},
+  courses: [
+    {id:1,teacher:'أ/ محمد صلاح - لغة عربية',title:'باقة شهر أكتوبر (النحو والأدب)',price:150,vid:'https://youtube.com',q:[{t:'إعراب (الطلاب) في: حضر الطلابُ:',o:['مفعول به','فاعل مرفوع'],a:1},{t:'رائد مدرسة الإحياء والبعث:',o:['البارودي','العقاد'],a:0}]},
+    {id:2,teacher:'د/ أحمد الجوهري - أحياء',title:'كورس الدعامة والحركة كاملاً',price:200,vid:'https://youtube.com',q:[{t:'عدد عظام الإنسان البالغ:',o:['206','300'],a:0}]}
+  ]
+};
+let activeC = data.courses;
+
+function save(){ localStorage.setItem('eduApp', JSON.stringify(data)); }
+
+function go(id){
+  document.querySelectorAll('.sec').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.nav-btns button').forEach(e=>e.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.getElementById('b'+id).classList.add('active');
+  if(id==='s2') drawDash();
+  if(id==='s4') drawCodes();
+}
+
+function saveUser(){
+  let n=document.getElementById('inName').value, p=document.getElementById('inPhone').value, pr=document.getElementById('inParent').value;
+  if(!n||!p||!pr) return alert('املأ جميع البيانات أولاً');
+  data.user={...data.user,name:n,phone:p,parent:pr,grade:document.getElementById('inGrade').value};
+  save(); alert('تم الحفظ!'); go('s2');
+}
+
+function drawDash(){
+  document.getElementById('txtName').innerText='مرحباً، '+(data.user.name||'طالبنا');
+  document.getElementById('txtInfo').innerText=data.user.grade+' | ولي الأمر: '+data.user.parent;
+  document.getElementById('txtBal').innerText=data.user.bal+' ج.م';
+  document.getElementById('wmPhone').innerText=data.user.phone||'01000000000';
+  let box=document.getElementById('coursesBox'); box.innerHTML='';
+  data.courses.forEach(c=>{
+    let ok=data.user.bought.includes(c.id);
+    box.innerHTML+=`<div class="card"><span style="background:#dbeafe;color:#1e3a8a;padding:3px 8px;border-radius:12px;font-size:.85rem;font-weight:bold">${c.teacher}</span><h4 style="margin:10px 0">${c.title}</h4><p style="font-weight:bold;color:#1d4ed8;margin-bottom:10px">${ok?'✅ مشترك':'السعر: '+c.price+' ج.م'}</p>${ok?`<button class="btn btn-green" onclick="openC(${c.id})">دخول الحصة</button>`:`<button class="btn" onclick="buyC(${c.id})">اشتراك من المحفظة</button>`}</div>`;
+  });
+}
+
+function useCode(){
+  let c=document.getElementById('inCode').value.trim().toUpperCase();
+  if(data.codes[c]){
+    data.user.bal+=data.codes[c]; alert('تم شحن '+data.codes[c]+' جنيه!');
+    delete data.codes[c]; save(); drawDash(); document.getElementById('inCode').value='';
+  } else alert('كود خاطئ أو مستخدم! جرب: EDU-100');
+}
+
+function buyC(id){
+  let c=data.courses.find(x=>x.id===id);
+  if(data.user.bal>=c.price){ data.user.bal-=c.price; data.user.bought.push(id); save(); drawDash(); alert('تم الاشتراك بنجاح!'); }
+  else alert('رصيدك غير كافٍ! اشحن المحفظة بكود أولاً.');
+}
+
+function openC(id){
+  activeC=data.courses.find(x=>x.id===id);
+  document.getElementById('vidTitle').innerText='🎬 '+activeC.title;
+  document.getElementById('vidFrame').src=activeC.vid;
+  document.getElementById('quizRes').innerText='';
+  let qb=document.getElementById('quizBox'); qb.innerHTML='';
+  activeC.q.forEach((item,i)=>{
+    let opts=item.o.map((o,oi)=>`<label class="opt"><input type="radio" name="q${i}" value="${oi}">${o}</label>`).join('');
+    qb.innerHTML+=`<div style="margin-bottom:12px"><p style="font-weight:bold">${i+1}. ${item.t}</p>${opts}</div>`;
+  });
+  go('s3');
+}
+
+function checkQuiz(){
+  let sc=0;
+  for(let i=0;i<activeC.q.length;i++){
