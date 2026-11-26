@@ -5,182 +5,230 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>منصة بسطتهالك التعليمية</title>
 <style>
-*{box-sizing:border-box;font-family:Tahoma,Arial,sans-serif;margin:0;padding:0}
-body{background:#f1f5f9;color:#0f172a;padding-bottom:40px}
-nav{background:#1d4ed8;color:#fff;padding:15px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
-.nav-btns button{background:rgba(255,255,255,.2);border:none;color:#fff;padding:8px 12px;border-radius:6px;cursor:pointer;font-weight:bold;margin:2px}
-.nav-btns button.active,.nav-btns button:hover{background:#f59e0b;color:#000}
-.container{max-width:1000px;margin:20px auto;padding:0 15px}
-.sec{display:none}.sec.active{display:block}
-.card{background:#fff;padding:20px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.08);margin-bottom:20px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:15px}
-input,select{width:100%;padding:10px;margin:6px 0 12px;border:1px solid #cbd5e1;border-radius:6px;font-size:1rem}
-.btn{background:#1d4ed8;color:#fff;border:none;padding:11px;border-radius:6px;cursor:pointer;font-weight:bold;width:100%;font-size:1rem}
-.btn-green{background:#16a34a}.btn-gold{background:#f59e0b;color:#000}
-.banner{background:linear-gradient(135deg,#1d4ed8,#1e3a8a);color:#fff;padding:20px;border-radius:10px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:20px}
-.video-box{position:relative;background:#000;border-radius:8px;overflow:hidden;aspect-ratio:16/9;margin:10px 0}
-.video-box iframe{width:100%;height:100%;border:none}
-.wm{position:absolute;top:20%;right:15%;background:rgba(255,255,255,.3);color:#fff;padding:4px 10px;border-radius:4px;font-weight:bold;pointer-events:none;animation:mv 8s infinite alternate}
-@keyframes mv{0%{top:10%;right:10%}100%{top:75%;right:65%}}
-.codes-area{background:#0f172a;color:#38bdf8;padding:10px;border-radius:6px;max-height:180px;overflow-y:auto;font-family:monospace;direction:ltr;text-align:left;margin-top:10px}
-.opt{display:block;background:#f8fafc;padding:8px;margin:5px 0;border:1px solid #e2e8f0;border-radius:5px;cursor:pointer}
-.opt input{width:auto;margin-left:8px}
+body { font-family: Arial, sans-serif; background: #f1f5f9; margin: 0; padding: 0; color: #1e293b; }
+nav { background: #1d4ed8; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+.tabs button { background: rgba(255,255,255,0.2); border: none; color: white; padding: 10px 14px; border-radius: 6px; font-weight: bold; cursor: pointer; margin: 2px; }
+.tabs button.active { background: #f59e0b; color: black; }
+.box { max-width: 900px; margin: 20px auto; padding: 0 15px; }
+.page { display: none; }
+.page.active { display: block; }
+.card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
+input, select { width: 100%; padding: 10px; margin: 8px 0 15px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
+.btn { background: #1d4ed8; color: white; border: none; padding: 12px; width: 100%; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
+.btn-green { background: #16a34a; }
+.btn-orange { background: #f59e0b; color: black; }
+.wallet { background: #1e3a8a; color: white; padding: 20px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.codes-list { background: #0f172a; color: #38bdf8; padding: 10px; border-radius: 6px; max-height: 150px; overflow-y: auto; direction: ltr; text-align: left; font-family: monospace; margin-top: 10px; }
 </style>
 </head>
 <body>
 
 <nav>
-  <div style="font-size:1.3rem;font-weight:bold">🎓 منصة بسطتهالك</div>
-  <div class="nav-btns">
-    <button onclick="go('s1')" id="bs1" class="active">1. بيانات الطالب</button>
-    <button onclick="go('s2')" id="bs2">2. الكورسات والمحفظة</button>
-    <button onclick="go('s3')" id="bs3">3. الحصة والامتحان</button>
-    <button onclick="go('s4')" id="bs4">4. الإدارة والأكواد</button>
+  <div style="font-size: 20px; font-weight: bold;">🎓 منصة بسطتهالك</div>
+  <div class="tabs">
+    <button id="btn-p1" class="active" onclick="openPage('p1')">1. بيانات الطالب</button>
+    <button id="btn-p2" onclick="openPage('p2')">2. الكورسات والمحفظة</button>
+    <button id="btn-p3" onclick="openPage('p3')">3. الحصة والامتحان</button>
+    <button id="btn-p4" onclick="openPage('p4')">4. الإدارة والأكواد</button>
   </div>
 </nav>
 
-<div class="container">
-  <!-- 1. التسجيل -->
-  <div id="s1" class="sec active">
-    <div class="card" style="max-width:480px;margin:auto">
-      <h3 style="margin-bottom:15px;color:#1d4ed8">تسجيل بيانات الطالب</h3>
-      <label>اسم الطالب:</label><input type="text" id="inName" placeholder="اكتب اسمك هنا">
-      <label>رقم هاتف الطالب:</label><input type="tel" id="inPhone" placeholder="اكتب رقم هاتفك (مثال: 01012345678)">
-      <label>رقم ولي الأمر:</label><input type="tel" id="inParent" placeholder="اكتب رقم ولي الأمر (مثال: 01198765432)">
+<div class="box">
+  <!-- الصفحة 1: بيانات الطالب -->
+  <div id="p1" class="page active">
+    <div class="card">
+      <h3 style="color: #1d4ed8;">تسجيل بيانات الطالب</h3>
+      <label>اسم الطالب بالكامل:</label>
+      <input type="text" id="stName" placeholder="مثال: يوسف أحمد">
+      <label>رقم هاتف الطالب:</label>
+      <input type="tel" id="stPhone" placeholder="مثال: 01012345678">
+      <label>رقم هاتف ولي الأمر:</label>
+      <input type="tel" id="stParent" placeholder="مثال: 01198765432">
       <label>الصف الدراسي:</label>
-      <select id="inGrade"><option>الصف الثالث الثانوي</option><option>الصف الثاني الثانوي</option><option>الصف الأول الثانوي</option></select>
-      <button class="btn" onclick="saveUser()">حفظ والدخول للمنصة</button>
+      <select id="stGrade">
+        <option value="الصف الثالث الثانوي">الصف الثالث الثانوي</option>
+        <option value="الصف الثاني الثانوي">الصف الثاني الثانوي</option>
+        <option value="الصف الأول الثانوي">الصف الأول الثانوي</option>
+      </select>
+      <button class="btn" onclick="registerUser()">حفظ والدخول للمنصة</button>
     </div>
   </div>
 
-  <!-- 2. الكورسات والمحفظة -->
-  <div id="s2" class="sec">
-    <div class="banner">
-      <div><h2 id="txtName">مرحباً بك</h2><p id="txtInfo" style="margin-top:5px;opacity:.9"></p></div>
-      <div style="background:rgba(255,255,255,.15);padding:12px 20px;border-radius:8px;text-align:center">
-        <div>رصيد المحفظة</div><div id="txtBal" style="font-size:1.6rem;font-weight:bold;color:#f59e0b">0 ج.م</div>
+  <!-- الصفحة 2: الكورسات والمحفظة -->
+  <div id="p2" class="page">
+    <div class="wallet">
+      <div>
+        <h2 id="showName" style="margin:0;">مرحباً بك</h2>
+        <p id="showInfo" style="margin:5px 0 0; opacity:0.9;"></p>
+      </div>
+      <div style="text-align: center;">
+        <div>رصيد المحفظة</div>
+        <div id="showBal" style="font-size: 24px; font-weight: bold; color: #f59e0b;">0 ج.م</div>
       </div>
     </div>
+
     <div class="card">
-      <h3 style="color:#16a34a;margin-bottom:10px">💳 شحن المحفظة بكود السنتر</h3>
-      <input type="text" id="inCode" placeholder="أدخل الكود (جرب الكود الجاهز: EDU-100)">
-      <button class="btn btn-green" onclick="useCode()">شحن الرصيد الآن</button>
+      <h3 style="color: #16a34a; margin-top:0;">💳 شحن المحفظة بكود</h3>
+      <input type="text" id="codeInput" placeholder="اكتب الكود هنا (جرب الكود الجاهز: EDU-100)">
+      <button class="btn btn-green" onclick="chargeWallet()">شحن الرصيد الآن</button>
     </div>
-    <h3 style="margin-bottom:12px">📚 الكورسات والشهور الدراسية المتاحة</h3>
-    <div class="grid" id="coursesBox"></div>
+
+    <h3>📚 الكورسات المتاحة</h3>
+    <div id="coursesList"></div>
   </div>
 
-  <!-- 3. الحصة والامتحان -->
-  <div id="s3" class="sec">
+  <!-- الصفحة 3: الحصة والامتحان -->
+  <div id="p3" class="page">
     <div class="card">
-      <h3 id="vidTitle" style="color:#1d4ed8">🎬 الحصة التعليمية</h3>
-      <div class="video-box">
-        <iframe id="vidFrame" src="https://youtube.com" allowfullscreen></iframe>
-        <div class="wm" id="wmPhone">01000000000</div>
-      </div>
+      <h3 id="lessonName" style="color: #1d4ed8; margin-top:0;">🎬 الحصة التعليمية</h3>
+      <p style="background: #fef3c7; padding: 8px; border-radius: 5px; font-weight: bold;">
+        🔒 العلامة المائية لحماية الفيديو: <span id="wmText">01000000000</span>
+      </p>
+      <iframe id="ytVideo" width="100%" height="300" src="https://youtube.com" frameborder="0" allowfullscreen></iframe>
     </div>
+
     <div class="card">
-      <h3 style="color:#1d4ed8;margin-bottom:10px">📝 امتحان الحصة (تصحيح إلكتروني)</h3>
-      <div id="quizBox"></div>
-      <button class="btn btn-gold" style="margin-top:10px" onclick="checkQuiz()">تسليم الامتحان وعرض النتيجة</button>
-      <div id="quizRes" style="margin-top:15px;font-weight:bold;text-align:center;font-size:1.1rem"></div>
+      <h3 style="color: #1d4ed8; margin-top:0;">📝 امتحان الحصة (تصحيح إلكتروني)</h3>
+      <p><strong>1. ما إعراب كلمة (الطلاب) في جملة: حضر الطلابُ الدرس؟</strong></p>
+      <label><input type="radio" name="q1" value="0" style="width:auto;"> مفعول به</label><br>
+      <label><input type="radio" name="q1" value="1" style="width:auto;"> فاعل مرفوع</label><br><br>
+
+      <p><strong>2. من هو رائد مدرسة الإحياء والبعث؟</strong></p>
+      <label><input type="radio" name="q2" value="1" style="width:auto;"> محمود سامي البارودي</label><br>
+      <label><input type="radio" name="q2" value="0" style="width:auto;"> عباس العقاد</label><br><br>
+
+      <button class="btn btn-orange" onclick="gradeQuiz()">تسليم الامتحان وعرض الدرجة</button>
+      <div id="quizResult" style="margin-top: 15px; font-weight: bold; font-size: 18px; text-align: center;"></div>
     </div>
   </div>
 
-  <!-- 4. الإدارة والأكواد -->
-  <div id="s4" class="sec">
-    <div class="grid">
-      <div class="card">
-        <h3 style="color:#1d4ed8">🔑 توليد آلاف الأكواد العشوائية</h3>
-        <label>عدد الأكواد:</label><input type="number" id="genNum" value="20" min="1" max="5000">
-        <label>قيمة الكود (جنيه):</label><input type="number" id="genVal" value="150">
-        <button class="btn" onclick="makeCodes()">توليد وحفظ الأكواد</button>
-        <div class="codes-area" id="codesOut">EDU-100 --> 200 EGP</div>
-      </div>
-      <div class="card">
-        <h3 style="color:#16a34a">➕ إضافة كورس / شهر لمعلم جديد</h3>
-        <label>اسم المعلم والمادة:</label><input type="text" id="cTeach" placeholder="مثال: م/ خالد صقر - كيمياء">
-        <label>اسم الشهر أو الكورس:</label><input type="text" id="cTitle" placeholder="مثال: شهر نوفمبر">
-        <label>السعر (جنيه):</label><input type="number" id="cPrice" value="150">
-        <label>رابط فيديو يوتيوب (Embed):</label><input type="text" id="cVid" placeholder="اختياري">
-        <button class="btn btn-green" onclick="addCourse()">نشر الكورس على المنصة</button>
-      </div>
+  <!-- الصفحة 4: الإدارة والأكواد -->
+  <div id="p4" class="page">
+    <div class="card">
+      <h3 style="color: #1d4ed8; margin-top:0;">🔑 توليد آلاف الأكواد العشوائية</h3>
+      <label>عدد الأكواد:</label>
+      <input type="number" id="codesCount" value="10">
+      <label>قيمة الكود (بالجنيه):</label>
+      <input type="number" id="codesValue" value="150">
+      <button class="btn" onclick="createCodes()">توليد الأكواد الآن</button>
+      <div id="codesDisplay" class="codes-list">EDU-100 --> 200 EGP</div>
+    </div>
+
+    <div class="card">
+      <h3 style="color: #16a34a; margin-top:0;">➕ إضافة كورس لمعلم جديد</h3>
+      <label>اسم المعلم والمادة:</label>
+      <input type="text" id="newTeacher" placeholder="مثال: م/ خالد صقر - كيمياء">
+      <label>اسم الكورس أو الشهر:</label>
+      <input type="text" id="newTitle" placeholder="مثال: باقة شهر نوفمبر">
+      <label>السعر (جنيه):</label>
+      <input type="number" id="newPrice" value="150">
+      <button class="btn btn-green" onclick="createCourse()">نشر الكورس للطلاب</button>
     </div>
   </div>
 </div>
 
 <script>
-let data = JSON.parse(localStorage.getItem('eduApp')) || {
-  user: {name:'',phone:'',parent:'',grade:'الصف الثالث الثانوي',bal:0,bought:[]},
-  codes: {'EDU-100':200},
+var appData = {
+  name: "",
+  phone: "",
+  parent: "",
+  grade: "الصف الثالث الثانوي",
+  balance: 0,
+  bought: [],
+  codes: { "EDU-100": 200 },
   courses: [
-    {id:1,teacher:'أ/ محمد صلاح - لغة عربية',title:'باقة شهر أكتوبر (النحو والأدب)',price:150,vid:'https://youtube.com',q:[{t:'إعراب (الطلاب) في: حضر الطلابُ:',o:['مفعول به','فاعل مرفوع'],a:1},{t:'رائد مدرسة الإحياء والبعث:',o:['البارودي','العقاد'],a:0}]},
-    {id:2,teacher:'د/ أحمد الجوهري - أحياء',title:'كورس الدعامة والحركة كاملاً',price:200,vid:'https://youtube.com',q:[{t:'عدد عظام الإنسان البالغ:',o:['206','300'],a:0}]}
+    { id: 1, teacher: "أ/ محمد صلاح - لغة عربية", title: "باقة شهر أكتوبر (النحو والأدب)", price: 150 },
+    { id: 2, teacher: "د/ أحمد الجوهري - أحياء", title: "كورس الدعامة والحركة كاملاً", price: 200 }
   ]
 };
-let activeC = data.courses[0];
 
-function save(){ localStorage.setItem('eduApp', JSON.stringify(data)); }
-
-function go(id){
-  document.querySelectorAll('.sec').forEach(e=>e.classList.remove('active'));
-  document.querySelectorAll('.nav-btns button').forEach(e=>e.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  document.getElementById('b'+id).classList.add('active');
-  if(id==='s2') drawDash();
-  if(id==='s3') loadQuiz(activeC);
-  if(id==='s4') drawCodes();
+if (localStorage.getItem("myEduPlatform")) {
+  appData = JSON.parse(localStorage.getItem("myEduPlatform"));
 }
 
-function saveUser(){
-  let n=document.getElementById('inName').value.trim();
-  let p=document.getElementById('inPhone').value.trim();
-  let pr=document.getElementById('inParent').value.trim();
-  if(!n || !p || !pr){ alert('من فضلك اكتب اسمك ورقم هاتفك ورقم ولي الأمر!'); return; }
-  data.user.name = n;
-  data.user.phone = p;
-  data.user.parent = pr;
-  data.user.grade = document.getElementById('inGrade').value;
-  save();
-  alert('تم حفظ بياناتك بنجاح!');
-  go('s2');
+function saveAll() {
+  localStorage.setItem("myEduPlatform", JSON.stringify(appData));
 }
 
-function drawDash(){
-  document.getElementById('txtName').innerText='مرحباً، '+(data.user.name||'طالبنا');
-  document.getElementById('txtInfo').innerText=data.user.grade+' | ولي الأمر: '+(data.user.parent||'غير مسجل');
-  document.getElementById('txtBal').innerText=data.user.bal+' ج.م';
-  document.getElementById('wmPhone').innerText=data.user.phone||'01000000000';
-  let box=document.getElementById('coursesBox'); box.innerHTML='';
-  data.courses.forEach(c=>{
-    let ok=data.user.bought.includes(c.id);
-    box.innerHTML+=`<div class="card"><span style="background:#dbeafe;color:#1e3a8a;padding:3px 8px;border-radius:12px;font-size:.85rem;font-weight:bold">${c.teacher}</span><h4 style="margin:10px 0">${c.title}</h4><p style="font-weight:bold;color:#1d4ed8;margin-bottom:10px">${ok?'✅ مشترك':'السعر: '+c.price+' ج.م'}</p>${ok?`<button class="btn btn-green" onclick="openC(${c.id})">دخول الحصة</button>`:`<button class="btn" onclick="buyC(${c.id})">اشتراك من المحفظة</button>`}</div>`;
-  });
+function openPage(pageId) {
+  var pages = document.getElementsByClassName("page");
+  for (var i = 0; i < pages.length; i++) {
+    pages[i].classList.remove("active");
+  }
+  var btns = document.querySelectorAll(".tabs button");
+  for (var j = 0; j < btns.length; j++) {
+    btns[j].classList.remove("active");
+  }
+  document.getElementById(pageId).classList.add("active");
+  document.getElementById("btn-" + pageId).classList.add("active");
+
+  if (pageId === "p2") renderDashboard();
+  if (pageId === "p4") renderCodes();
 }
 
-function useCode(){
-  let c=document.getElementById('inCode').value.trim().toUpperCase();
-  if(data.codes[c]){
-    data.user.bal+=data.codes[c]; alert('تم شحن '+data.codes[c]+' جنيه!');
-    delete data.codes[c]; save(); drawDash(); document.getElementById('inCode').value='';
-  } else alert('كود خاطئ أو مستخدم! جرب: EDU-100');
+function registerUser() {
+  var n = document.getElementById("stName").value.trim();
+  var p = document.getElementById("stPhone").value.trim();
+  var pr = document.getElementById("stParent").value.trim();
+  var g = document.getElementById("stGrade").value;
+
+  if (n === "" || p === "" || pr === "") {
+    alert("من فضلك اكتب اسمك ورقم هاتفك ورقم ولي الأمر أولاً!");
+    return;
+  }
+
+  appData.name = n;
+  appData.phone = p;
+  appData.parent = pr;
+  appData.grade = g;
+  saveAll();
+  alert("تم حفظ بياناتك بنجاح!");
+  openPage("p2");
 }
 
-function buyC(id){
-  let c=data.courses.find(x=>x.id===id);
-  if(data.user.bal>=c.price){ data.user.bal-=c.price; data.user.bought.push(id); save(); drawDash(); alert('تم الاشتراك بنجاح!'); }
-  else alert('رصيدك غير كافٍ! اشحن المحفظة بكود أولاً.');
+function renderDashboard() {
+  document.getElementById("showName").innerText = "مرحباً، " + (appData.name || "طالبنا");
+  document.getElementById("showInfo").innerText = appData.grade + " | ولي الأمر: " + appData.parent;
+  document.getElementById("showBal").innerText = appData.balance + " ج.م";
+  document.getElementById("wmText").innerText = appData.phone || "01000000000";
+
+  var html = "";
+  for (var i = 0; i < appData.courses.length; i++) {
+    var c = appData.courses[i];
+    var isBought = appData.bought.indexOf(c.id) !== -1;
+    html += '<div class="card">';
+    html += '<span style="background:#dbeafe; color:#1e3a8a; padding:4px 10px; border-radius:10px; font-weight:bold;">' + c.teacher + '</span>';
+    html += '<h4>' + c.title + '</h4>';
+    if (isBought) {
+      html += '<p style="color:#16a34a; font-weight:bold;">✅ مشترك بالفعل</p>';
+      html += '<button class="btn btn-green" onclick="watchCourse(\'' + c.title + '\')">دخول الحصة والامتحان</button>';
+    } else {
+      html += '<p style="color:#1d4ed8; font-weight:bold;">السعر: ' + c.price + ' جنيه</p>';
+      html += '<button class="btn" onclick="buyCourse(' + c.id + ', ' + c.price + ')">اشتراك من المحفظة</button>';
+    }
+    html += '</div>';
+  }
+  document.getElementById("coursesList").innerHTML = html;
 }
 
-function openC(id){
-  activeC=data.courses.find(x=>x.id===id);
-  loadQuiz(activeC);
-  go('s3');
+function chargeWallet() {
+  var code = document.getElementById("codeInput").value.trim().toUpperCase();
+  if (appData.codes[code]) {
+    var val = appData.codes[code];
+    appData.balance += val;
+    delete appData.codes[code];
+    saveAll();
+    renderDashboard();
+    document.getElementById("codeInput").value = "";
+    alert("تم شحن محفظتك بمبلغ " + val + " جنيه بنجاح!");
+  } else {
+    alert("الكود غير صحيح أو تم استخدامه! جرب الكود الجاهز: EDU-100");
+  }
 }
 
-function loadQuiz(course){
-  document.getElementById('vidTitle').innerText='🎬 '+course.title;
-  document.getElementById('vidFrame').src=course.vid;
-  document.getElementById('quizRes').innerText='';
-  let qb=document.getElementById('quizBox'); qb.innerHTML='';
-  course.q.forEach((item,i)=>{
+function buyCourse(id, price) {
+  if (appData.balance >= price) {
+    appData.balance -= price;
+    appData.bought.push(id);
+    saveAll();
+    renderDashboard();
