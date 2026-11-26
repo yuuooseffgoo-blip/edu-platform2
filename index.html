@@ -32,10 +32,10 @@ input,select{width:100%;padding:10px;margin:6px 0 12px;border:1px solid #cbd5e1;
 <nav>
   <div style="font-size:1.3rem;font-weight:bold">🎓 منصة بسطتهالك</div>
   <div class="nav-btns">
-    <button onclick="go('s1')" id="b1" class="active">1. بيانات الطالب</button>
-    <button onclick="go('s2')" id="b2">2. الكورسات والمحفظة</button>
-    <button onclick="go('s3')" id="b3">3. الحصة والامتحان</button>
-    <button onclick="go('s4')" id="b4">4. الإدارة والأكواد</button>
+    <button onclick="go('s1')" id="bs1" class="active">1. بيانات الطالب</button>
+    <button onclick="go('s2')" id="bs2">2. الكورسات والمحفظة</button>
+    <button onclick="go('s3')" id="bs3">3. الحصة والامتحان</button>
+    <button onclick="go('s4')" id="bs4">4. الإدارة والأكواد</button>
   </div>
 </nav>
 
@@ -44,9 +44,9 @@ input,select{width:100%;padding:10px;margin:6px 0 12px;border:1px solid #cbd5e1;
   <div id="s1" class="sec active">
     <div class="card" style="max-width:480px;margin:auto">
       <h3 style="margin-bottom:15px;color:#1d4ed8">تسجيل بيانات الطالب</h3>
-      <label>اسم الطالب:</label><input type="text" id="inName" placeholder="الاسم بالكامل">
-      <label>رقم هاتف الطالب:</label><input type="tel" id="inPhone" placeholder="010xxxxxxxx">
-      <label>رقم ولي الأمر:</label><input type="tel" id="inParent" placeholder="011xxxxxxxx">
+      <label>اسم الطالب:</label><input type="text" id="inName" placeholder="اكتب اسمك هنا">
+      <label>رقم هاتف الطالب:</label><input type="tel" id="inPhone" placeholder="اكتب رقم هاتفك (مثال: 01012345678)">
+      <label>رقم ولي الأمر:</label><input type="tel" id="inParent" placeholder="اكتب رقم ولي الأمر (مثال: 01198765432)">
       <label>الصف الدراسي:</label>
       <select id="inGrade"><option>الصف الثالث الثانوي</option><option>الصف الثاني الثانوي</option><option>الصف الأول الثانوي</option></select>
       <button class="btn" onclick="saveUser()">حفظ والدخول للمنصة</button>
@@ -118,7 +118,7 @@ let data = JSON.parse(localStorage.getItem('eduApp')) || {
     {id:2,teacher:'د/ أحمد الجوهري - أحياء',title:'كورس الدعامة والحركة كاملاً',price:200,vid:'https://youtube.com',q:[{t:'عدد عظام الإنسان البالغ:',o:['206','300'],a:0}]}
   ]
 };
-let activeC = data.courses;
+let activeC = data.courses[0];
 
 function save(){ localStorage.setItem('eduApp', JSON.stringify(data)); }
 
@@ -128,19 +128,27 @@ function go(id){
   document.getElementById(id).classList.add('active');
   document.getElementById('b'+id).classList.add('active');
   if(id==='s2') drawDash();
+  if(id==='s3') loadQuiz(activeC);
   if(id==='s4') drawCodes();
 }
 
 function saveUser(){
-  let n=document.getElementById('inName').value, p=document.getElementById('inPhone').value, pr=document.getElementById('inParent').value;
-  if(!n||!p||!pr) return alert('املأ جميع البيانات أولاً');
-  data.user={...data.user,name:n,phone:p,parent:pr,grade:document.getElementById('inGrade').value};
-  save(); alert('تم الحفظ!'); go('s2');
+  let n=document.getElementById('inName').value.trim();
+  let p=document.getElementById('inPhone').value.trim();
+  let pr=document.getElementById('inParent').value.trim();
+  if(!n || !p || !pr){ alert('من فضلك اكتب اسمك ورقم هاتفك ورقم ولي الأمر!'); return; }
+  data.user.name = n;
+  data.user.phone = p;
+  data.user.parent = pr;
+  data.user.grade = document.getElementById('inGrade').value;
+  save();
+  alert('تم حفظ بياناتك بنجاح!');
+  go('s2');
 }
 
 function drawDash(){
   document.getElementById('txtName').innerText='مرحباً، '+(data.user.name||'طالبنا');
-  document.getElementById('txtInfo').innerText=data.user.grade+' | ولي الأمر: '+data.user.parent;
+  document.getElementById('txtInfo').innerText=data.user.grade+' | ولي الأمر: '+(data.user.parent||'غير مسجل');
   document.getElementById('txtBal').innerText=data.user.bal+' ج.م';
   document.getElementById('wmPhone').innerText=data.user.phone||'01000000000';
   let box=document.getElementById('coursesBox'); box.innerHTML='';
@@ -166,17 +174,13 @@ function buyC(id){
 
 function openC(id){
   activeC=data.courses.find(x=>x.id===id);
-  document.getElementById('vidTitle').innerText='🎬 '+activeC.title;
-  document.getElementById('vidFrame').src=activeC.vid;
-  document.getElementById('quizRes').innerText='';
-  let qb=document.getElementById('quizBox'); qb.innerHTML='';
-  activeC.q.forEach((item,i)=>{
-    let opts=item.o.map((o,oi)=>`<label class="opt"><input type="radio" name="q${i}" value="${oi}">${o}</label>`).join('');
-    qb.innerHTML+=`<div style="margin-bottom:12px"><p style="font-weight:bold">${i+1}. ${item.t}</p>${opts}</div>`;
-  });
+  loadQuiz(activeC);
   go('s3');
 }
 
-function checkQuiz(){
-  let sc=0;
-  for(let i=0;i<activeC.q.length;i++){
+function loadQuiz(course){
+  document.getElementById('vidTitle').innerText='🎬 '+course.title;
+  document.getElementById('vidFrame').src=course.vid;
+  document.getElementById('quizRes').innerText='';
+  let qb=document.getElementById('quizBox'); qb.innerHTML='';
+  course.q.forEach((item,i)=>{
