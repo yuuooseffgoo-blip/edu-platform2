@@ -5,230 +5,258 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>منصة بسطتهالك التعليمية</title>
 <style>
-body { font-family: Arial, sans-serif; background: #f1f5f9; margin: 0; padding: 0; color: #1e293b; }
-nav { background: #1d4ed8; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-.tabs button { background: rgba(255,255,255,0.2); border: none; color: white; padding: 10px 14px; border-radius: 6px; font-weight: bold; cursor: pointer; margin: 2px; }
-.tabs button.active { background: #f59e0b; color: black; }
-.box { max-width: 900px; margin: 20px auto; padding: 0 15px; }
-.page { display: none; }
-.page.active { display: block; }
-.card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
-input, select { width: 100%; padding: 10px; margin: 8px 0 15px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
-.btn { background: #1d4ed8; color: white; border: none; padding: 12px; width: 100%; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
-.btn-green { background: #16a34a; }
-.btn-orange { background: #f59e0b; color: black; }
-.wallet { background: #1e3a8a; color: white; padding: 20px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.codes-list { background: #0f172a; color: #38bdf8; padding: 10px; border-radius: 6px; max-height: 150px; overflow-y: auto; direction: ltr; text-align: left; font-family: monospace; margin-top: 10px; }
+body{font-family:sans-serif;background:#f1f5f9;margin:0;color:#0f172a}
+nav{background:#1d4ed8;color:#fff;padding:15px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.nav-btn{background:rgba(255,255,255,0.2);border:none;color:#fff;padding:10px 15px;border-radius:6px;font-weight:bold;cursor:pointer}
+.nav-btn.active{background:#f59e0b;color:#000}
+.container{max-width:800px;margin:20px auto;padding:0 15px}
+.section{display:none}
+.section.active{display:block}
+.card{background:#fff;padding:20px;border-radius:10px;box-shadow:0 2px 5px rgba(0,0,0,0.1);margin-bottom:15px}
+input,select{width:100%;padding:12px;margin:8px 0 15px;border:1px solid #ccc;border-radius:6px;box-sizing:border-box;font-size:16px}
+.btn{background:#1d4ed8;color:#fff;border:none;padding:12px;width:100%;border-radius:6px;font-size:16px;font-weight:bold;cursor:pointer}
+.btn-green{background:#16a34a}
+.btn-gold{background:#f59e0b;color:#000}
+.wallet{background:#1e3a8a;color:#fff;padding:20px;border-radius:10px;display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
 </style>
 </head>
 <body>
 
 <nav>
-  <div style="font-size: 20px; font-weight: bold;">🎓 منصة بسطتهالك</div>
-  <div class="tabs">
-    <button id="btn-p1" class="active" onclick="openPage('p1')">1. بيانات الطالب</button>
-    <button id="btn-p2" onclick="openPage('p2')">2. الكورسات والمحفظة</button>
-    <button id="btn-p3" onclick="openPage('p3')">3. الحصة والامتحان</button>
-    <button id="btn-p4" onclick="openPage('p4')">4. الإدارة والأكواد</button>
+  <div style="font-size:20px;font-weight:bold">🎓 منصة بسطتهالك</div>
+  <div>
+    <button type="button" class="nav-btn active" id="t1" onclick="showTab(1)">1. الطالب</button>
+    <button type="button" class="nav-btn" id="t2" onclick="showTab(2)">2. الكورسات والمحفظة</button>
+    <button type="button" class="nav-btn" id="t3" onclick="showTab(3)">3. الحصة والامتحان</button>
+    <button type="button" class="nav-btn" id="t4" onclick="showTab(4)">4. الإدارة والأكواد</button>
   </div>
 </nav>
 
-<div class="box">
-  <!-- الصفحة 1: بيانات الطالب -->
-  <div id="p1" class="page active">
+<div class="container">
+  <!-- 1 -->
+  <div id="sec1" class="section active">
     <div class="card">
-      <h3 style="color: #1d4ed8;">تسجيل بيانات الطالب</h3>
-      <label>اسم الطالب بالكامل:</label>
-      <input type="text" id="stName" placeholder="مثال: يوسف أحمد">
+      <h3 style="color:#1d4ed8">بيانات الطالب</h3>
+      <label>اسم الطالب:</label>
+      <input type="text" id="uName" placeholder="اكتب اسمك هنا">
       <label>رقم هاتف الطالب:</label>
-      <input type="tel" id="stPhone" placeholder="مثال: 01012345678">
-      <label>رقم هاتف ولي الأمر:</label>
-      <input type="tel" id="stParent" placeholder="مثال: 01198765432">
+      <input type="tel" id="uPhone" placeholder="010xxxxxxxx">
+      <label>رقم ولي الأمر:</label>
+      <input type="tel" id="uParent" placeholder="011xxxxxxxx">
       <label>الصف الدراسي:</label>
-      <select id="stGrade">
-        <option value="الصف الثالث الثانوي">الصف الثالث الثانوي</option>
-        <option value="الصف الثاني الثانوي">الصف الثاني الثانوي</option>
-        <option value="الصف الأول الثانوي">الصف الأول الثانوي</option>
+      <select id="uGrade">
+        <option>الصف الثالث الثانوي</option>
+        <option>الصف الثاني الثانوي</option>
+        <option>الصف الأول الثانوي</option>
       </select>
-      <button class="btn" onclick="registerUser()">حفظ والدخول للمنصة</button>
+      <button type="button" class="btn" onclick="saveProfile()">حفظ والدخول للمنصة</button>
     </div>
   </div>
 
-  <!-- الصفحة 2: الكورسات والمحفظة -->
-  <div id="p2" class="page">
+  <!-- 2 -->
+  <div id="sec2" class="section">
     <div class="wallet">
       <div>
-        <h2 id="showName" style="margin:0;">مرحباً بك</h2>
-        <p id="showInfo" style="margin:5px 0 0; opacity:0.9;"></p>
+        <h2 id="wName" style="margin:0">مرحباً بك</h2>
+        <p id="wInfo" style="margin:5px 0 0"></p>
       </div>
-      <div style="text-align: center;">
-        <div>رصيد المحفظة</div>
-        <div id="showBal" style="font-size: 24px; font-weight: bold; color: #f59e0b;">0 ج.م</div>
+      <div style="text-align:center">
+        <div>الرصيد</div>
+        <div id="wBal" style="font-size:24px;font-weight:bold;color:#f59e0b">0 ج.م</div>
       </div>
     </div>
 
     <div class="card">
-      <h3 style="color: #16a34a; margin-top:0;">💳 شحن المحفظة بكود</h3>
-      <input type="text" id="codeInput" placeholder="اكتب الكود هنا (جرب الكود الجاهز: EDU-100)">
-      <button class="btn btn-green" onclick="chargeWallet()">شحن الرصيد الآن</button>
+      <h3 style="color:#16a34a;margin-top:0">💳 شحن المحفظة بكود</h3>
+      <input type="text" id="codeBox" placeholder="اكتب الكود (جرب: EDU100)">
+      <button type="button" class="btn btn-green" onclick="addBalance()">شحن الرصيد</button>
     </div>
 
-    <h3>📚 الكورسات المتاحة</h3>
-    <div id="coursesList"></div>
+    <h3>📚 الكورسات والشهور الدراسية</h3>
+    <div id="coursesDiv"></div>
   </div>
 
-  <!-- الصفحة 3: الحصة والامتحان -->
-  <div id="p3" class="page">
+  <!-- 3 -->
+  <div id="sec3" class="section">
     <div class="card">
-      <h3 id="lessonName" style="color: #1d4ed8; margin-top:0;">🎬 الحصة التعليمية</h3>
-      <p style="background: #fef3c7; padding: 8px; border-radius: 5px; font-weight: bold;">
-        🔒 العلامة المائية لحماية الفيديو: <span id="wmText">01000000000</span>
-      </p>
-      <iframe id="ytVideo" width="100%" height="300" src="https://youtube.com" frameborder="0" allowfullscreen></iframe>
+      <h3 id="cTitle" style="color:#1d4ed8;margin-top:0">🎬 الحصة التعليمية</h3>
+      <p style="background:#fef3c7;padding:8px;border-radius:5px">🔒 العلامة المائية: <b id="wm">01000000000</b></p>
+      <iframe width="100%" height="280" src="https://youtube.com" frameborder="0" allowfullscreen></iframe>
     </div>
 
     <div class="card">
-      <h3 style="color: #1d4ed8; margin-top:0;">📝 امتحان الحصة (تصحيح إلكتروني)</h3>
-      <p><strong>1. ما إعراب كلمة (الطلاب) في جملة: حضر الطلابُ الدرس؟</strong></p>
-      <label><input type="radio" name="q1" value="0" style="width:auto;"> مفعول به</label><br>
-      <label><input type="radio" name="q1" value="1" style="width:auto;"> فاعل مرفوع</label><br><br>
-
-      <p><strong>2. من هو رائد مدرسة الإحياء والبعث؟</strong></p>
-      <label><input type="radio" name="q2" value="1" style="width:auto;"> محمود سامي البارودي</label><br>
-      <label><input type="radio" name="q2" value="0" style="width:auto;"> عباس العقاد</label><br><br>
-
-      <button class="btn btn-orange" onclick="gradeQuiz()">تسليم الامتحان وعرض الدرجة</button>
-      <div id="quizResult" style="margin-top: 15px; font-weight: bold; font-size: 18px; text-align: center;"></div>
+      <h3 style="color:#1d4ed8;margin-top:0">📝 امتحان الحصة</h3>
+      <p><b>1. إعراب (الطلاب) في: حضر الطلابُ الدرس:</b></p>
+      <label><input type="radio" name="q1" value="0" style="width:auto"> مفعول به</label><br>
+      <label><input type="radio" name="q1" value="1" style="width:auto"> فاعل مرفوع</label><br><br>
+      <p><b>2. رائد مدرسة الإحياء والبعث:</b></p>
+      <label><input type="radio" name="q2" value="1" style="width:auto"> محمود سامي البارودي</label><br>
+      <label><input type="radio" name="q2" value="0" style="width:auto"> عباس العقاد</label><br><br>
+      <button type="button" class="btn btn-gold" onclick="submitTest()">تصحيح الامتحان</button>
+      <div id="testRes" style="margin-top:15px;font-weight:bold;text-align:center"></div>
     </div>
   </div>
 
-  <!-- الصفحة 4: الإدارة والأكواد -->
-  <div id="p4" class="page">
+  <!-- 4 -->
+  <div id="sec4" class="section">
     <div class="card">
-      <h3 style="color: #1d4ed8; margin-top:0;">🔑 توليد آلاف الأكواد العشوائية</h3>
+      <h3 style="color:#1d4ed8;margin-top:0">🔑 توليد أكواد عشوائية</h3>
       <label>عدد الأكواد:</label>
-      <input type="number" id="codesCount" value="10">
-      <label>قيمة الكود (بالجنيه):</label>
-      <input type="number" id="codesValue" value="150">
-      <button class="btn" onclick="createCodes()">توليد الأكواد الآن</button>
-      <div id="codesDisplay" class="codes-list">EDU-100 --> 200 EGP</div>
+      <input type="number" id="numCodes" value="10">
+      <label>قيمة الكود (جنيه):</label>
+      <input type="number" id="valCodes" value="150">
+      <button type="button" class="btn" onclick="genCodes()">توليد الأكواد</button>
+      <div id="codesOut" style="background:#0f172a;color:#38bdf8;padding:10px;border-radius:6px;margin-top:10px;direction:ltr;text-align:left;max-height:150px;overflow-y:auto">EDU100 : 200 EGP</div>
     </div>
 
     <div class="card">
-      <h3 style="color: #16a34a; margin-top:0;">➕ إضافة كورس لمعلم جديد</h3>
-      <label>اسم المعلم والمادة:</label>
-      <input type="text" id="newTeacher" placeholder="مثال: م/ خالد صقر - كيمياء">
-      <label>اسم الكورس أو الشهر:</label>
-      <input type="text" id="newTitle" placeholder="مثال: باقة شهر نوفمبر">
-      <label>السعر (جنيه):</label>
-      <input type="number" id="newPrice" value="150">
-      <button class="btn btn-green" onclick="createCourse()">نشر الكورس للطلاب</button>
+      <h3 style="color:#16a34a;margin-top:0">➕ إضافة كورس لمعلم</h3>
+      <input type="text" id="tName" placeholder="اسم المعلم والمادة">
+      <input type="text" id="cName" placeholder="اسم الشهر أو الكورس">
+      <input type="number" id="cPrice" value="150" placeholder="السعر">
+      <button type="button" class="btn btn-green" onclick="newCourse()">نشر الكورس</button>
     </div>
   </div>
 </div>
 
 <script>
-var appData = {
+var db = {
   name: "",
   phone: "",
   parent: "",
   grade: "الصف الثالث الثانوي",
-  balance: 0,
+  bal: 0,
   bought: [],
-  codes: { "EDU-100": 200 },
+  codes: { "EDU100": 200 },
   courses: [
-    { id: 1, teacher: "أ/ محمد صلاح - لغة عربية", title: "باقة شهر أكتوبر (النحو والأدب)", price: 150 },
-    { id: 2, teacher: "د/ أحمد الجوهري - أحياء", title: "كورس الدعامة والحركة كاملاً", price: 200 }
+    { id: 1, t: "أ/ محمد صلاح - عربي", n: "باقة شهر أكتوبر", p: 150 },
+    { id: 2, t: "د/ أحمد الجوهري - أحياء", n: "كورس الدعامة والحركة", p: 200 }
   ]
 };
 
-if (localStorage.getItem("myEduPlatform")) {
-  appData = JSON.parse(localStorage.getItem("myEduPlatform"));
+try {
+  var saved = localStorage.getItem("edu_db_v2");
+  if (saved) { db = JSON.parse(saved); }
+} catch (e) {}
+
+function save() {
+  try { localStorage.setItem("edu_db_v2", JSON.stringify(db)); } catch (e) {}
 }
 
-function saveAll() {
-  localStorage.setItem("myEduPlatform", JSON.stringify(appData));
-}
-
-function openPage(pageId) {
-  var pages = document.getElementsByClassName("page");
-  for (var i = 0; i < pages.length; i++) {
-    pages[i].classList.remove("active");
+function showTab(num) {
+  for (var i = 1; i <= 4; i++) {
+    document.getElementById("sec" + i).className = "section";
+    document.getElementById("t" + i).className = "nav-btn";
   }
-  var btns = document.querySelectorAll(".tabs button");
-  for (var j = 0; j < btns.length; j++) {
-    btns[j].classList.remove("active");
-  }
-  document.getElementById(pageId).classList.add("active");
-  document.getElementById("btn-" + pageId).classList.add("active");
-
-  if (pageId === "p2") renderDashboard();
-  if (pageId === "p4") renderCodes();
+  document.getElementById("sec" + num).className = "section active";
+  document.getElementById("t" + num).className = "nav-btn active";
+  if (num === 2) updateDash();
+  if (num === 4) updateCodes();
 }
 
-function registerUser() {
-  var n = document.getElementById("stName").value.trim();
-  var p = document.getElementById("stPhone").value.trim();
-  var pr = document.getElementById("stParent").value.trim();
-  var g = document.getElementById("stGrade").value;
-
-  if (n === "" || p === "" || pr === "") {
-    alert("من فضلك اكتب اسمك ورقم هاتفك ورقم ولي الأمر أولاً!");
+function saveProfile() {
+  var n = document.getElementById("uName").value;
+  var p = document.getElementById("uPhone").value;
+  var pr = document.getElementById("uParent").value;
+  if (!n || !p || !pr) {
+    alert("من فضلك اكتب الاسم ورقم الهاتف ورقم ولي الأمر");
     return;
   }
-
-  appData.name = n;
-  appData.phone = p;
-  appData.parent = pr;
-  appData.grade = g;
-  saveAll();
-  alert("تم حفظ بياناتك بنجاح!");
-  openPage("p2");
+  db.name = n;
+  db.phone = p;
+  db.parent = pr;
+  db.grade = document.getElementById("uGrade").value;
+  save();
+  showTab(2);
 }
 
-function renderDashboard() {
-  document.getElementById("showName").innerText = "مرحباً، " + (appData.name || "طالبنا");
-  document.getElementById("showInfo").innerText = appData.grade + " | ولي الأمر: " + appData.parent;
-  document.getElementById("showBal").innerText = appData.balance + " ج.م";
-  document.getElementById("wmText").innerText = appData.phone || "01000000000";
+function updateDash() {
+  document.getElementById("wName").innerText = "مرحباً، " + db.name;
+  document.getElementById("wInfo").innerText = db.grade + " | ولي الأمر: " + db.parent;
+  document.getElementById("wBal").innerText = db.bal + " ج.م";
+  document.getElementById("wm").innerText = db.phone;
 
-  var html = "";
-  for (var i = 0; i < appData.courses.length; i++) {
-    var c = appData.courses[i];
-    var isBought = appData.bought.indexOf(c.id) !== -1;
-    html += '<div class="card">';
-    html += '<span style="background:#dbeafe; color:#1e3a8a; padding:4px 10px; border-radius:10px; font-weight:bold;">' + c.teacher + '</span>';
-    html += '<h4>' + c.title + '</h4>';
+  var box = document.getElementById("coursesDiv");
+  box.innerHTML = "";
+  for (var i = 0; i < db.courses.length; i++) {
+    var c = db.courses[i];
+    var card = document.createElement("div");
+    card.className = "card";
+    var isBought = db.bought.indexOf(c.id) !== -1;
+    
+    var html = "<span style='background:#dbeafe;color:#1e3a8a;padding:4px 8px;border-radius:8px;font-weight:bold'>" + c.t + "</span>";
+    html += "<h4>" + c.n + "</h4>";
+    html += "<p style='color:#1d4ed8;font-weight:bold'>السعر: " + c.p + " جنيه</p>";
+    card.innerHTML = html;
+
+    var btn = document.createElement("button");
+    btn.type = "button";
     if (isBought) {
-      html += '<p style="color:#16a34a; font-weight:bold;">✅ مشترك بالفعل</p>';
-      html += '<button class="btn btn-green" onclick="watchCourse(\'' + c.title + '\')">دخول الحصة والامتحان</button>';
+      btn.className = "btn btn-green";
+      btn.innerText = "دخول الحصة والامتحان";
+      btn.onclick = (function(title) {
+        return function() {
+          document.getElementById("cTitle").innerText = "🎬 " + title;
+          showTab(3);
+        };
+      })(c.n);
     } else {
-      html += '<p style="color:#1d4ed8; font-weight:bold;">السعر: ' + c.price + ' جنيه</p>';
-      html += '<button class="btn" onclick="buyCourse(' + c.id + ', ' + c.price + ')">اشتراك من المحفظة</button>';
+      btn.className = "btn";
+      btn.innerText = "اشتراك من المحفظة";
+      btn.onclick = (function(id, price) {
+        return function() {
+          if (db.bal >= price) {
+            db.bal -= price;
+            db.bought.push(id);
+            save();
+            updateDash();
+            alert("تم الاشتراك بنجاح!");
+          } else {
+            alert("رصيدك غير كافٍ! اشحن بكود أولاً (جرب EDU100)");
+          }
+        };
+      })(c.id, c.p);
     }
-    html += '</div>';
+    card.appendChild(btn);
+    box.appendChild(card);
   }
-  document.getElementById("coursesList").innerHTML = html;
 }
 
-function chargeWallet() {
-  var code = document.getElementById("codeInput").value.trim().toUpperCase();
-  if (appData.codes[code]) {
-    var val = appData.codes[code];
-    appData.balance += val;
-    delete appData.codes[code];
-    saveAll();
-    renderDashboard();
-    document.getElementById("codeInput").value = "";
-    alert("تم شحن محفظتك بمبلغ " + val + " جنيه بنجاح!");
+function addBalance() {
+  var code = document.getElementById("codeBox").value.trim().toUpperCase();
+  if (db.codes[code]) {
+    db.bal += db.codes[code];
+    alert("تم شحن " + db.codes[code] + " جنيه بنجاح!");
+    delete db.codes[code];
+    save();
+    updateDash();
+    document.getElementById("codeBox").value = "";
   } else {
-    alert("الكود غير صحيح أو تم استخدامه! جرب الكود الجاهز: EDU-100");
+    alert("الكود غير صحيح! جرب الكود: EDU100");
   }
 }
 
-function buyCourse(id, price) {
-  if (appData.balance >= price) {
-    appData.balance -= price;
-    appData.bought.push(id);
-    saveAll();
-    renderDashboard();
+function submitTest() {
+  var q1 = document.querySelector("input[name='q1']:checked");
+  var q2 = document.querySelector("input[name='q2']:checked");
+  if (!q1 || !q2) {
+    alert("أجب عن السؤالين أولاً!");
+    return;
+  }
+  var score = Number(q1.value) + Number(q2.value);
+  document.getElementById("testRes").innerHTML = "نتيجتك: " + score + " من 2 <br><span style='color:green'>تم إرسال النتيجة لولي الأمر: " + db.parent + "</span>";
+}
+
+function genCodes() {
+  var count = Number(document.getElementById("numCodes").value);
+  var val = Number(document.getElementById("valCodes").value);
+  var chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  for (var i = 0; i < count; i++) {
+    var code = "EDU";
+    for (var j = 0; j < 6; j++) {
+      code += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    db.codes[code] = val;
+  }
+  save();
+  updateCodes();
